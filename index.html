@@ -4,10 +4,761 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aabed Kashwa | Software Engineer</title>
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <link rel="stylesheet" href="/styles/style.css" />
-  <link rel="stylesheet" href="/styles/animations.css" />
+  <link rel="icon" type="image/svg+xml" href="./public/vite.svg" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    /* Basic Reset and Variables */
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --text-color: #1f2937;
+      --text-light: #6b7280;
+      --bg-color: #ffffff;
+      --bg-secondary: #f8fafc;
+      --border-color: #e5e7eb;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    [data-theme="dark"] {
+      --text-color: #f9fafb;
+      --text-light: #d1d5db;
+      --bg-color: #111827;
+      --bg-secondary: #1f2937;
+      --border-color: #374151;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      transition: var(--transition);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header Styles */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    [data-theme="dark"] header {
+      background: rgba(17, 24, 39, 0.95);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--primary-color);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary-color);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      width: 25px;
+      height: 3px;
+      background: var(--text-color);
+      margin: 3px 0;
+      transition: var(--transition);
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--text-color);
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      color: var(--primary-color);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, var(--bg-color) 0%, var(--bg-secondary) 100%);
+      padding-top: 80px;
+    }
+
+    .hero-content {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+
+    .hero-content h1 span {
+      color: var(--primary-color);
+    }
+
+    .hero-content h2 {
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+
+    .btn.primary {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .btn.primary:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .btn.secondary {
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .btn.secondary:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--bg-secondary);
+      color: var(--text-color);
+      text-decoration: none;
+      transition: var(--transition);
+      border: 1px solid var(--border-color);
+    }
+
+    .social-links a:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Section Styles */
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+    }
+
+    .underline {
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+      margin: 0 auto;
+    }
+
+    /* About Section */
+    .about {
+      background: var(--bg-secondary);
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-light);
+    }
+
+    .about-image {
+      text-align: center;
+    }
+
+    .about-image i {
+      font-size: 10rem;
+      color: var(--primary-color);
+      opacity: 0.7;
+    }
+
+    /* Skills Section */
+    .skills-content {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .skill-category {
+      background: var(--bg-secondary);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .skill-category h3 {
+      color: var(--text-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .skill-category h3 i {
+      color: var(--primary-color);
+    }
+
+    .skills-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .skill-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .skill-name {
+      font-weight: 500;
+      color: var(--text-color);
+      min-width: 120px;
+    }
+
+    .skill-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--border-color);
+      border-radius: 4px;
+      margin-left: 1rem;
+      overflow: hidden;
+    }
+
+    .skill-level {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      border-radius: 4px;
+      transition: width 1s ease-in-out;
+    }
+
+    /* Experience Section */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      background: var(--primary-color);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -1px;
+    }
+
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      background-color: inherit;
+      width: 50%;
+    }
+
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      right: -17px;
+      background-color: var(--bg-color);
+      border: 4px solid var(--primary-color);
+      top: 15px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 50%;
+    }
+
+    .timeline-item:nth-child(even)::after {
+      left: -16px;
+    }
+
+    .timeline-content {
+      padding: 20px 30px;
+      background-color: var(--bg-secondary);
+      position: relative;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .timeline-content h3 {
+      color: var(--primary-color);
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-content h4 {
+      color: var(--text-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-date {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-description {
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* Projects Section */
+    .projects {
+      background: var(--bg-secondary);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--bg-color);
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .project-card h3 {
+      color: var(--text-color);
+      margin-bottom: 1rem;
+    }
+
+    .project-card p {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tech-tag {
+      padding: 4px 12px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .project-links a {
+      color: var(--primary-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .project-links a:hover {
+      color: var(--secondary-color);
+    }
+
+    /* Contact Section */
+    .contact-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .contact-info h3 {
+      color: var(--text-color);
+      margin-bottom: 1rem;
+    }
+
+    .contact-info p {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+    }
+
+    .contact-details {
+      margin-bottom: 2rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      color: var(--text-light);
+    }
+
+    .contact-item i {
+      color: var(--primary-color);
+      width: 20px;
+    }
+
+    .contact-form {
+      background: var(--bg-secondary);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-secondary);
+      padding: 2rem 0 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo a {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-social a {
+      color: var(--text-light);
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+
+    .footer-social a:hover {
+      color: var(--primary-color);
+    }
+
+    .footer-copyright {
+      text-align: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-light);
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .fade-in.delay-1 { animation-delay: 0.2s; }
+    .fade-in.delay-2 { animation-delay: 0.4s; }
+    .fade-in.delay-3 { animation-delay: 0.6s; }
+    .fade-in.delay-4 { animation-delay: 0.8s; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal-up,
+    .reveal-left,
+    .reveal-right {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+    }
+
+    .reveal-left {
+      transform: translateX(-50px);
+    }
+
+    .reveal-right {
+      transform: translateX(50px);
+    }
+
+    .reveal-up.revealed,
+    .reveal-left.revealed,
+    .reveal-right.revealed {
+      opacity: 1;
+      transform: translate(0);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: var(--bg-color);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: var(--shadow);
+        padding: 2rem 0;
+      }
+
+      .nav-menu.active {
+        left: 0;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .contact-content {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .timeline::after {
+        left: 31px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+
+      .timeline-item::after {
+        left: 15px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -58,6 +809,28 @@
             <a href="mailto:aabedkashwa@gmail.com" aria-label="Email me">
               <i class="fas fa-envelope"></i>
             </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container">
+        <div class="section-header">
+          <h2>About Me</h2>
+          <div class="underline"></div>
+        </div>
+        <div class="about-content">
+          <div class="about-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="about-text">
+            <p>I'm a passionate Software Engineer with over 5 years of experience in building scalable web applications and solving complex technical challenges. My expertise spans across full-stack development, with a strong focus on PHP, Laravel, JavaScript, and modern web technologies.</p>
+            
+            <p>Throughout my career, I've had the opportunity to work with diverse teams and projects, from e-learning platforms to food delivery systems, always striving to deliver high-quality solutions that make a real impact. I believe in continuous learning and staying up-to-date with the latest technologies and best practices.</p>
+            
+            <p>When I'm not coding, I enjoy exploring new technologies, contributing to open-source projects, and sharing knowledge with the developer community. I'm always excited about new challenges and opportunities to grow both personally and professionally.</p>
           </div>
         </div>
       </div>
@@ -182,7 +955,7 @@
                 Leading development of scalable web applications using Laravel and Javascript.
                 Implementing service-oriented architecture and optimizing application performance.
                 Mentoring junior developers and conducting code reviews.
-                <br> Designed and implemented a Bash-based MySQL import system handling 1M+ records in under 78 seconds, resolving MongoDB integration issues and syncing live inventory data.
+                <br><br> Designed and implemented a Bash-based MySQL import system handling 1M+ records in under 78 seconds, resolving MongoDB integration issues and syncing live inventory data.
                 <br> Spearheaded Elasticsearch integration, resolving product search latency and improving relevance.
               </p>
             </div>
@@ -195,7 +968,7 @@
               <h4>zVendo</h4>
               <p class="timeline-date">2021 - 2022</p>
               <p class="timeline-description">
-                Took ownership of rewriting legacy codebase, aligning it with modern Laravel practices,
+                Took ownership of rewriting legacy codebase, aligning it with modern Laravel practices.
                 <br> Architected and delivered admin APIs and integrations with Foodics, expanding product reach into the Gulf region.
                 <br> Solved security challenges for multiple payment gateway integrations.
                 <br> Led system upgrades, ensuring compatibility and modernization across the stack.
@@ -206,32 +979,78 @@
           <div class="timeline-item reveal-left">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-              <h3>Full Stack Web Developer​</h3>
+              <h3>Full Stack Web Developer</h3>
               <h4>TripTab</h4>
               <p class="timeline-date">2020 - 2021</p>
               <p class="timeline-description">
                 Built and maintained web applications using PHP and JavaScript.
                 Collaborated with team members in an Agile environment.
                 Participated in code reviews and technical discussions.
-                <br> Overhauled a legacy e-learning platform, delivering a modern Laravel + Vue.js solution.
+                <br><br> Overhauled a legacy e-learning platform, delivering a modern Laravel + Vue.js solution.
                 <br> Implemented CI/CD with Jenkins, integrated with Zoom & BBB for live sessions.
-                <br> Applied Repository pattern with dual-database (MySQL + MongoDB) architecture
+                <br> Applied Repository pattern with dual-database (MySQL + MongoDB) architecture.
               </p>
             </div>
           </div>
           
-          <div class="timeline-item reveal-left">
+          <div class="timeline-item reveal-right">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
               <h3>Full Stack Web Developer (Remote)</h3>
               <h4>Sharing Group</h4>
               <p class="timeline-date">2019 - 2020</p>
               <p class="timeline-description">
-                Participated in legacy system migration and service decoupling for online food delivery system
+                Participated in legacy system migration and service decoupling for online food delivery system.
                 <br> Overhauled a legacy e-learning platform, delivering a modern Laravel + Vue.js solution.
-                <br> Implemented Laravel Queues and S3-based storage for asynchronous processing
-                <br> Developed modular components for real-time tracking and notifications (Pusher)
+                <br> Implemented Laravel Queues and S3-based storage for asynchronous processing.
+                <br> Developed modular components for real-time tracking and notifications (Pusher).
               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+      <div class="container">
+        <div class="section-header">
+          <h2>Featured Projects</h2>
+          <div class="underline"></div>
+        </div>
+        <div class="projects-grid">
+          <div class="project-card reveal-up">
+            <h3>E-Learning Platform</h3>
+            <p>A comprehensive learning management system with live session integration, built with Laravel and Vue.js. Features include course management, video streaming, and real-time collaboration.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Laravel</span>
+              <span class="tech-tag">Vue.js</span>
+              <span class="tech-tag">MySQL</span>
+              <span class="tech-tag">WebRTC</span>
+            </div>
+          </div>
+
+          <div class="project-card reveal-up delay-1">
+            <h3>Food Delivery System</h3>
+            <p>Scalable food delivery platform with real-time order tracking, payment integration, and admin dashboard. Handles high-volume transactions with optimized performance.</p>
+            <div class="project-tech">
+              <span class="tech-tag">PHP</span>
+              <span class="tech-tag">Laravel</span>
+              <span class="tech-tag">MongoDB</span>
+              <span class="tech-tag">Vue.js</span>
+              <span class="tech-tag">Pusher</span>
+            </div>
+          </div>
+
+          <div class="project-card reveal-up delay-2">
+            <h3>Awfar CRM</h3>
+            <p>High-performance inventory system processing 1M+ records with MySQL optimization and Elasticsearch integration for advanced search capabilities.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Laravel</span>
+              <span class="tech-tag">MySQL</span>
+              <span class="tech-tag">Elasticsearch</span>
+              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">Node.js</span>
             </div>
           </div>
         </div>
@@ -338,6 +1157,145 @@
     <i class="fas fa-arrow-up"></i>
   </a>
 
-  <script type="module" src="/js/main.js"></script>
+  <script>
+    // Mobile Navigation Toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+      });
+    });
+
+    // Theme Toggle
+    const themeToggle = document.querySelector('.theme-toggle');
+    const body = document.body;
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-theme');
+      const isDark = body.classList.contains('dark-theme');
+      body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      
+      const icon = themeToggle.querySelector('i');
+      icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+      
+      // Store theme preference
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      body.classList.toggle('dark-theme', savedTheme === 'dark');
+      body.setAttribute('data-theme', savedTheme);
+      const icon = themeToggle.querySelector('i');
+      icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+
+    // Smooth Scrolling for Navigation Links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Active Navigation Link
+    const sections = document.querySelectorAll('section');
+    const navLinksArray = Array.from(navLinks);
+
+    function updateActiveNav() {
+      const scrollPos = window.scrollY + 100;
+      
+      sections.forEach(section => {
+        const top = section.offsetTop;
+        const bottom = top + section.offsetHeight;
+        const id = section.getAttribute('id');
+        
+        if (scrollPos >= top && scrollPos < bottom) {
+          navLinksArray.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveNav);
+
+    // Back to Top Button
+    const backToTop = document.querySelector('.back-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    // Reveal Animations on Scroll
+    const revealElements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+
+    const revealOnScroll = () => {
+      const windowHeight = window.innerHeight;
+      
+      revealElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        
+        if (elementTop < windowHeight - 100) {
+          element.classList.add('revealed');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+
+    // Skill Bar Animation
+    const skillBars = document.querySelectorAll('.skill-level');
+    
+    const animateSkillBars = () => {
+      skillBars.forEach(bar => {
+        const rect = bar.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          bar.style.width = bar.style.width; // Trigger animation
+        }
+      });
+    };
+
+    window.addEventListener('scroll', animateSkillBars);
+    window.addEventListener('load', animateSkillBars);
+
+    // Contact Form Handler
+    const contactForm = document.getElementById('contactForm');
+    
+    contactForm.addEventListener('submit', function(e) {
+      // Add any form validation or processing here
+      // The form will submit to FormSubmit.co as configured
+    });
+
+    // Initialize everything on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateActiveNav();
+      revealOnScroll();
+      animateSkillBars();
+    });
+  </script>
 </body>
 </html>
